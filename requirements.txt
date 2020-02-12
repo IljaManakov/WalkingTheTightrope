@@ -1,0 +1,9 @@
+python>3.6
+autoencoder==0.0.7
+pt-trainer==0.1.8
+torch>1.0.0
+pandas
+numpy
+scikit-learn
+googledrivedownloader
+fastai
