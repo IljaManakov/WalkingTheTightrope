@@ -36,6 +36,8 @@ if __name__ == '__main__':
                         help='choose bottleneck size (height x width) setting of the AE (overrides config)')
     parser.add_argument('--channels', '-ch', type=int, nargs=1, metavar='n_channels',
                         help='choose number of channels in the bottleneck (overrides config)')
+    parser.add_argument('--logdir', '-l', type=str, nargs=1, metavar='directory',
+                        help='directory in which the trainer writes results and checkpoints (overrides config)')
     parser.add_argument('--seed', type=int, nargs=1, metavar='int',
                         help='seed for the model initialization and training run')
     parser.add_argument('--cpu', type=int, nargs=0,
@@ -56,6 +58,8 @@ if __name__ == '__main__':
         config.superfluous_strides = strides_to_remove[args.bottleneck_size]
     if hasattr(args, 'channels'):
         config.model['channels'][-1] = args.channels
+    if hasattr(args, 'logdir'):
+        config.LOGDIR = args.logdir
     if hasattr(args, 'seed'):
         config.seed = args.seed
     if hasattr(args, 'cpu'):
