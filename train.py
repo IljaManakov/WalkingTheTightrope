@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # parse cmd arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', '-c', choices=['pokemon', 'celeba', 'stl-10', 'scaling_celeba'], type=str,
+    parser.add_argument('--config', '-c', choices=['pokemon', 'celeba', 'stl-10'], type=str,
                         required=True, metavar='config name', help='configuration file for the AE training')
     parser.add_argument('--bottleneck_size', '-s', choices=['small', 'mid', 'large'], type=str, metavar='size_string',
                         help='choose bottleneck size (height x width) setting of the AE (overrides config)')
