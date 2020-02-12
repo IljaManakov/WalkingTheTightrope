@@ -135,6 +135,12 @@ class Representations(Dataset):
     def __getitem__(self, item):
         return self.transformation(self.samples[item])
 
+    def reduce_size(self, start=0, end=None):
+        end = end or len(self.samples) - 1
+        start = start if isinstance(start, int) else int(start * len(self.samples))
+        end = end if isinstance(end, int) else int(end * len(self.samples))
+        self.samples = self.samples[start:end]
+
 
 class Folds(object):
     """
