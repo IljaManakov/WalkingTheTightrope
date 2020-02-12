@@ -30,21 +30,21 @@ if __name__ == '__main__':
 
     # parse cmd arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', '-c', choices=['pokemon', 'celeba', 'stl-10', 'scaling_celeba'], nargs=1, type=str,
+    parser.add_argument('--config', '-c', choices=['pokemon', 'celeba', 'stl-10', 'scaling_celeba'], type=str,
                         required=True, metavar='config name', help='configuration file for the AE training')
-    parser.add_argument('--bottleneck_size', '-s', choices=['small', 'mid', 'large'], nargs=1, type=str, metavar='size string',
+    parser.add_argument('--bottleneck_size', '-s', choices=['small', 'mid', 'large'], type=str, metavar='size_string',
                         help='choose bottleneck size (height x width) setting of the AE (overrides config)')
-    parser.add_argument('--channels', '-ch', type=int, nargs=1, metavar='n_channels',
+    parser.add_argument('--channels', '-ch', type=int, metavar='n_channels',
                         help='choose number of channels in the bottleneck (overrides config)')
-    parser.add_argument('--logdir', '-l', type=str, nargs=1, metavar='directory',
+    parser.add_argument('--logdir', '-l', type=str, metavar='directory',
                         help='directory in which the trainer writes results and checkpoints (overrides config)')
-    parser.add_argument('--seed', type=int, nargs=1, metavar='int',
+    parser.add_argument('--seed', type=int, metavar='int',
                         help='seed for the model initialization and training run')
-    parser.add_argument('--cpu', type=int, nargs=0,
+    parser.add_argument('--cpu', default=False, action='store_true',
                         help='run training on cpu')
-    parser.add_argument('--epochs', type=int, nargs=1, metavar='int',
+    parser.add_argument('--epochs', type=int, metavar='int',
                         help='choose number of epochs for training (overrides config)')
-    parser.add_argument('--steps', type=int, nargs=1, metavar='int',
+    parser.add_argument('--steps', type=int, metavar='int',
                         help='choose number of steps for training (overrides config and overrules epochs)')
     args = parser.parse_args()
 
@@ -53,21 +53,21 @@ if __name__ == '__main__':
     config = Config.from_file(config_file)
 
     # modify config based on cmd arguments
-    if hasattr(args, 'bottleneck_size'):
+    if args.bottleneck_size:
         strides_to_remove = {'small': 0, 'mid': 1, 'large': 2}
         config.superfluous_strides = strides_to_remove[args.bottleneck_size]
-    if hasattr(args, 'channels'):
+    if args.channels:
         config.model['channels'][-1] = args.channels
-    if hasattr(args, 'logdir'):
+    if args.logdir:
         config.LOGDIR = args.logdir
-    if hasattr(args, 'seed'):
+    if args.seed:
         config.seed = args.seed
-    if hasattr(args, 'cpu'):
+    if args.cpu:
         config.cuda = False
-    if hasattr(args, 'epochs'):
+    if args.epochs:
         config.n_epochs = args.epochs
-    if hasattr(args, 'steps'):
-        setattr(config, 'steps', args.steps)
+    if args.steps:
+        setattr(config, 'n_steps', args.steps)
 
     # commence training
     run_training(config)
