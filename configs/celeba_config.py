@@ -69,7 +69,7 @@ seed = 0
 
 validationset = {
     'file': 'codes_test.pt',
-    'fraction': 0.2
+    'fraction': 1
 }
 
 superfluous_strides = 0
