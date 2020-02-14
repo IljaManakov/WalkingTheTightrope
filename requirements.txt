@@ -7,3 +7,5 @@ numpy
 scikit-learn
 googledrivedownloader
 fastai
+ipywidgets
+cv2
